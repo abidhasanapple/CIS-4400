@@ -8,14 +8,16 @@
  [my_311_data_V3.csv](https://github.com/abidhasanapple/CIS-4400/files/11940418/my_311_data_V3.csv)
 
 3.	Scripts that gather these data
+  
 import pandas as pd
 from sodapy import Socrata
-
-data_url='data.cityofnewyork.us'    # The Host Name for the API endpoint (the https:// part will be added automatically)
-data_set='erm2-nwe9'    # The data set at the API endpoint (311 data in this case)
-app_token='XvMR7RBARLotSL2V6l3jiEDvC'   # The app token created in the prior steps
+data_url='data.cityofnewyork.us'    
+# The Host Name for the API endpoint (the https:// part will be added automatically)
+data_set='erm2-nwe9'   
+# The data set at the API endpoint (311 data in this case)
+app_token='XvMR7RBARLotSL2V6l3jiEDvC'     # The app token created in the prior steps
 client = Socrata(data_url,app_token)      # Create the client to point to the API endpoint
-# Set the timeout to 60 seconds    
+# Set the timeout to 120 seconds    
 client.timeout = 120
 # Retrieve the first 2000 results returned as JSON object from the API
 metadata = client.get_metadata(data_set)
