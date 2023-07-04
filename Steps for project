@@ -1,0 +1,12 @@
+- Review 311 site and living wage site for dataset for dimensional model
+- Extraction of data dictionary from 311 / living wages site
+- Create dimensional model 
+- Connect to Microsoft Azure
+- Gather scripts for web scraping
+- Gather data from sites
+- Clean data 
+- Filter data by the dates
+- Split the location between boroughs
+- Check for duplicates by using uuid
+- Create mapping 
+- Create visualizations
