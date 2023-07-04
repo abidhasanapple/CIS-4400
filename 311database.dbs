@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="311Apartments" id="Project-25c7" database="LogicalDesign" >
+	<comment><![CDATA[Finding top 100 apartments based on price and 311 calls]]></comment>
+	<schema name="INSTANCE" catalogname="311Apartments" >
+		<table name="Entity" />
+		<table name="Fact_Table" prior="Entity_0" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="date" type="DATE" jt="91" mandatory="y" />
+			<column name="location" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="agency" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="compaint" prior="incident" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_location" unique="UNIQUE_KEY" >
+				<column name="location" />
+			</index>
+			<index name="pk_date" unique="UNIQUE_KEY" >
+				<column name="date" />
+			</index>
+			<index name="pk" unique="NORMAL" >
+				<column name="compaint" />
+			</index>
+			<index name="pk_Fact_Table" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_agency" unique="UNIQUE_INDEX" >
+				<column name="agency" />
+			</index>
+			<fk name="fk_Fact_Table_dm_date" to_schema="311Apartments.INSTANCE" to_table="dm_date" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="date" pk="date" />
+			</fk>
+			<fk name="fk_Fact_Table_dm_location" to_schema="311Apartments.INSTANCE" to_table="dm_location" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="location" pk="location" />
+			</fk>
+			<fk name="fk_Fact_Table_dm_incident" to_schema="311Apartments.INSTANCE" to_table="dm_complaint" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="compaint" pk="complaint" />
+			</fk>
+			<fk name="fk_Fact_Table_dm_agency" to_schema="311Apartments.INSTANCE" to_table="dm_agency" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="agency" pk="agency" />
+			</fk>
+			<fk name="fk_Fact_Table_RealEstate_Fact_Table" to_schema="311Apartments.INSTANCE" to_table="RealEstate_Fact_Table" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="id" pk="id" />
+			</fk>
+		</table>
+		<table name="RealEstate_Fact_Table" prior="RealEstate_Fact_Tabke" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="price" type="INT" jt="4" />
+			<column name="number_of_bedrooms" type="INT" jt="4" />
+			<column name="number_of_bathrooms" type="INT" jt="4" />
+			<column name="city" type="VARCHAR" length="100" jt="12" />
+			<column name="zip_code" type="INT" jt="4" />
+			<index name="pk_RealEstate_Fact_Table" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_RealEstate_Fact_Table_dm_living_wages" to_schema="311Apartments.INSTANCE" to_table="dm_living_wages" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="id" pk="id" />
+			</fk>
+		</table>
+		<table name="dm_agency" prior="Entity_0" >
+			<column name="id" type="BIGINT" jt="-5" />
+			<column name="name" type="VARCHAR" length="100" jt="12" />
+			<column name="agency_description" type="VARCHAR" length="100" jt="12" />
+			<column name="agency" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_id" unique="UNIQUE_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_agency" unique="UNIQUE_KEY" >
+				<column name="agency" />
+			</index>
+		</table>
+		<table name="dm_complaint" prior="dm_incident" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="complaint_type" prior="incident_type" type="VARCHAR" length="100" jt="12" />
+			<column name="complaint_description" prior="incident_description" type="VARCHAR" length="100" jt="12" />
+			<column name="complaint" prior="incident" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_incident" unique="UNIQUE_KEY" >
+				<column name="complaint" />
+			</index>
+			<index name="pk_dm_incident" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="dm_date" prior="dm_" >
+			<column name="id" type="BIGINT" jt="-5" />
+			<column name="date_created" type="DATE" jt="91" />
+			<column name="date_closed" type="DATE" jt="91" />
+			<column name="date" type="DATE" jt="91" />
+			<index name="pk_id" unique="UNIQUE_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_id_001" unique="UNIQUE_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_date" unique="UNIQUE_KEY" >
+				<column name="date" />
+			</index>
+		</table>
+		<table name="dm_living_wages" prior="dm_living_" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="county" type="VARCHAR" length="100" jt="12" />
+			<column name="zip_code" type="INT" jt="4" />
+			<column name="minimum_living_wages" type="INT" jt="4" />
+			<column name="maximum_living_wages" type="INT" jt="4" />
+			<column name="avg_living_wages" type="INT" jt="4" />
+			<index name="pk_dm_living_wages" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="dm_location" prior="Entity_0" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="address" type="VARCHAR" length="100" jt="12" />
+			<column name="city" type="VARCHAR" length="100" jt="12" />
+			<column name="zip_code" type="INT" jt="4" />
+			<column name="state" type="VARCHAR" length="100" jt="12" />
+			<column name="county" type="VARCHAR" length="100" jt="12" />
+			<column name="borough" type="VARCHAR" length="100" jt="12" />
+			<column name="location_type" type="VARCHAR" length="100" jt="12" />
+			<column name="location" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_location" unique="UNIQUE_KEY" >
+				<column name="location" />
+			</index>
+			<index name="pk_dm_location" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-2579" show_relation="columns" >
+		<entity schema="311Apartments.INSTANCE" name="Fact_Table" color="C1D8EE" x="352" y="208" />
+		<entity schema="311Apartments.INSTANCE" name="RealEstate_Fact_Table" color="C1D8EE" x="544" y="192" />
+		<entity schema="311Apartments.INSTANCE" name="dm_agency" color="C1D8EE" x="832" y="496" />
+		<entity schema="311Apartments.INSTANCE" name="dm_complaint" color="C1D8EE" x="48" y="160" />
+		<entity schema="311Apartments.INSTANCE" name="dm_date" color="C1D8EE" x="896" y="64" />
+		<entity schema="311Apartments.INSTANCE" name="dm_living_wages" color="C1D8EE" x="816" y="192" />
+		<entity schema="311Apartments.INSTANCE" name="dm_location" color="C1D8EE" x="64" y="432" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools.
+- Create new entities by right-clicking the layout. 
+- Double-click entity headers to edit.
+- For a better understanding of the schema, create multiple layouts.
+- Deploy the model into the database by converting it first to the physical design.]]></comment>
+		</callout>
+	</layout>
+</project>
