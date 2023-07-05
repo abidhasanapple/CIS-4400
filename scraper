@@ -1,0 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the website to scrape
+url = 'https://livingwage.mit.edu/counties/36061'
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML content using BeautifulSoup
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find the table containing the living wage data
+table = soup.find('table', {'class': 'table-standard'})
+
+# Find all table rows except the header row
+rows = table.find_all('tr')[1:]
+
+# Iterate over each row and extract the necessary data
+for row in rows:
+    columns = row.find_all('td')
+    location = columns[0].text.strip()
+    wage = columns[1].text.strip()
+    family_type = columns[2].text.strip()
+
+    # Print the extracted data
+    print(f"Location: {location}")
+    print(f"Living Wage: {wage}")
+    print(f"Family Type: {family_type}")
+    print('------------------------')
