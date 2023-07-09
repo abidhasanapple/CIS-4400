@@ -1,0 +1,80 @@
+CREATE  TABLE "DM_AGENCY" ( 
+	ID                   integer     ,
+	"NAME"               varchar(100)     ,
+	"AGENCY DESCRIPTION" varchar(100)     ,
+	AGENCY               varchar(100)     ,
+	CONSTRAINT "PK ID" UNIQUE ( ID ),
+	CONSTRAINT "PK AGENCY" UNIQUE ( AGENCY ),
+	CONSTRAINT "PK AGENCY 001" UNIQUE ( AGENCY )
+ );
+
+CREATE  TABLE "DM_COMPLAINT" ( 
+	ID                   integer NOT NULL    ,
+	"COMPLAINT TYPE"     varchar(100)     ,
+	"COMPLAINT DESCRIPTION" varchar(100)     ,
+	COMPLAINT            varchar(100)     ,
+	CONSTRAINT "PK INCIDENT" UNIQUE ( COMPLAINT ),
+	CONSTRAINT "PK DM INCIDENT" PRIMARY KEY ( ID )
+ );
+
+CREATE  TABLE "DM_DATE" ( 
+	ID                   integer     ,
+	"DATE CREATED"       date     ,
+	"DATE CLOSED"        date     ,
+	DATE                 date     ,
+	CONSTRAINT "PK ID" UNIQUE ( ID ),
+	CONSTRAINT "PK ID 001" UNIQUE ( ID ),
+	CONSTRAINT "PK DATE" UNIQUE ( DATE ),
+	CONSTRAINT "PK DATE 001" UNIQUE ( DATE )
+ );
+
+CREATE  TABLE "DM_LOCATION" ( 
+	ID                   integer NOT NULL    ,
+	ADDRESS              varchar(100)     ,
+	CITY                 varchar(100)     ,
+	"ZIP CODE"           integer     ,
+	STATE                varchar(100)     ,
+	COUNTY               varchar(100)     ,
+	BOROUGH              varchar(100)     ,
+	"LOCATION TYPE"      varchar(100)     ,
+	"LOCATION"           varchar(100)     ,
+	CONSTRAINT "PK LOCATION" UNIQUE ( "LOCATION" ),
+	CONSTRAINT "PK DM LOCATION" PRIMARY KEY ( ID )
+ );
+
+CREATE  TABLE ENTITY ( 
+ );
+
+CREATE  TABLE "FACT_TABLE" ( 
+	ID                   integer NOT NULL    ,
+	DATE                 date NOT NULL    ,
+	"LOCATION"           varchar(100) NOT NULL    ,
+	AGENCY               varchar(100) NOT NULL    ,
+	COMPAINT             varchar(100) NOT NULL    ,
+	"WAGE MANAGEMENT"    number     ,
+	"WAGE IT"            number     ,
+	"WAGE HEALTHCARE"    number     ,
+	CONSTRAINT "PK LOCATION" UNIQUE ( "LOCATION" ),
+	CONSTRAINT "PK DATE" UNIQUE ( DATE ),
+	CONSTRAINT "PK FACT TABLE" PRIMARY KEY ( ID, COMPAINT )
+ );
+
+CREATE  TABLE "REALESTATE_FACT_TABLE" ( 
+	ID                   integer NOT NULL    ,
+	PRICE                integer     ,
+	"NUMBER OF BEDROOMS" integer     ,
+	"NUMBER OF BATHROOMS" integer     ,
+	CITY                 varchar(100)     ,
+	"ZIP CODE"           integer     ,
+	CONSTRAINT "PK REALESTATE FACT TABLE" PRIMARY KEY ( ID )
+ );
+
+ALTER TABLE "FACT_TABLE" ADD CONSTRAINT "FK FACT TABLE DM DATE" FOREIGN KEY ( DATE ) REFERENCES "DM_DATE"( DATE ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE "FACT_TABLE" ADD CONSTRAINT "FK FACT TABLE DM LOCATION" FOREIGN KEY ( "LOCATION" ) REFERENCES "DM_LOCATION"( "LOCATION" ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE "FACT_TABLE" ADD CONSTRAINT "FK FACT TABLE DM INCIDENT" FOREIGN KEY ( COMPAINT ) REFERENCES "DM_COMPLAINT"( COMPLAINT ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE "FACT_TABLE" ADD CONSTRAINT "FK FACT TABLE DM AGENCY" FOREIGN KEY ( AGENCY ) REFERENCES "DM_AGENCY"( AGENCY ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
